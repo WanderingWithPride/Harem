@@ -7,10 +7,11 @@ import secrets
 import bcrypt
 import bleach
 import re
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import logging
 from datetime import datetime, timedelta
 import jwt
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

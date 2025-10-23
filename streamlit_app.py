@@ -28,7 +28,10 @@ try:
     )
     MODULES_LOADED = True
 except ImportError as e:
-    st.error(f"❌ Failed to load custom modules: {e}")
+    logger.warning(f"⚠️ Custom modules not available: {e}")
+    MODULES_LOADED = False
+except Exception as e:
+    logger.warning(f"⚠️ Error loading custom modules: {e}")
     MODULES_LOADED = False
 
 # Configure logging
