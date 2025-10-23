@@ -15,108 +15,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for complete system
-st.markdown("""
-<style>
-    .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    .admin-header {
-        background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    .landing-container {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin: 2rem 0;
-    }
-    .landing-card {
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 15px;
-        border: 2px solid #e9ecef;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-        min-width: 300px;
-    }
-    .landing-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-    .admin-card {
-        border-color: #2c3e50;
-    }
-    .applicant-card {
-        border-color: #667eea;
-    }
-    .application-form {
-        background: #f8f9fa;
-        padding: 2rem;
-        border-radius: 10px;
-        border: 1px solid #e9ecef;
-    }
-    .success-message {
-        background: #d4edda;
-        color: #155724;
-        padding: 1rem;
-        border-radius: 5px;
-        border: 1px solid #c3e6cb;
-    }
-    .error-message {
-        background: #f8d7da;
-        color: #721c24;
-        padding: 1rem;
-        border-radius: 5px;
-        border: 1px solid #f5c6cb;
-    }
-    .info-box {
-        background: #d1ecf1;
-        color: #0c5460;
-        padding: 1rem;
-        border-radius: 5px;
-        border: 1px solid #bee5eb;
-    }
-    .metric-card {
-        background: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 4px solid #007bff;
-        margin: 1rem 0;
-    }
-    .application-card {
-        background: #ffffff;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border: 1px solid #e9ecef;
-        margin: 1rem 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .status-pending { color: #ffc107; font-weight: bold; }
-    .status-approved { color: #28a745; font-weight: bold; }
-    .status-rejected { color: #dc3545; font-weight: bold; }
-    .status-review { color: #17a2b8; font-weight: bold; }
-    .login-form {
-        background: #f8f9fa;
-        padding: 2rem;
-        border-radius: 10px;
-        border: 1px solid #e9ecef;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Use Streamlit's native styling - no custom CSS needed
 
 # Sample data for demo
 @st.cache_data
@@ -184,72 +83,45 @@ def init_session_state():
         st.session_state.current_user = None
 
 def show_landing_page():
-    st.markdown("""
-    <div class="main-header">
-        <h1>🏛️ Harem CRM</h1>
-        <p>Professional Application Management System</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("🏛️ Harem CRM")
+    st.subheader("Professional Application Management System")
     
-    st.markdown("""
-    <div class="info-box">
-        <h3>Welcome to Harem CRM</h3>
-        <p>Please select your role to continue:</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("Welcome to Harem CRM! Please select your role to continue:")
     
     # Landing page with role selection
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
-        <div class="landing-card admin-card">
-            <h2>👑 Admin Access</h2>
-            <p>Manage applications, view analytics, and control the system</p>
-            <p><strong>Features:</strong></p>
-            <ul style="text-align: left;">
-                <li>View all applications</li>
-                <li>Approve/reject candidates</li>
-                <li>Analytics and reporting</li>
-                <li>System settings</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        st.subheader("👑 Admin Access")
+        st.write("Manage applications, view analytics, and control the system")
+        st.write("**Features:**")
+        st.write("• View all applications")
+        st.write("• Approve/reject candidates") 
+        st.write("• Analytics and reporting")
+        st.write("• System settings")
         
         if st.button("🔐 Admin Login", use_container_width=True):
             st.session_state.user_type = "admin"
             st.rerun()
     
     with col2:
-        st.markdown("""
-        <div class="landing-card applicant-card">
-            <h2>📝 Applicant Portal</h2>
-            <p>Submit applications, check status, and manage your profile</p>
-            <p><strong>Features:</strong></p>
-            <ul style="text-align: left;">
-                <li>Submit new applications</li>
-                <li>Check application status</li>
-                <li>Update your profile</li>
-                <li>View your progress</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        st.subheader("📝 Applicant Portal")
+        st.write("Submit applications, check status, and manage your profile")
+        st.write("**Features:**")
+        st.write("• Submit new applications")
+        st.write("• Check application status")
+        st.write("• Update your profile")
+        st.write("• View your progress")
         
         if st.button("📋 Applicant Portal", use_container_width=True):
             st.session_state.user_type = "applicant"
             st.rerun()
 
 def show_admin_login():
-    st.markdown("""
-    <div class="admin-header">
-        <h1>👑 Admin Login</h1>
-        <p>Owner/Admin Access Required</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("👑 Admin Login")
+    st.subheader("Owner/Admin Access Required")
     
     with st.form("admin_login"):
-        st.markdown('<div class="login-form">', unsafe_allow_html=True)
-        
         st.subheader("🔐 Admin Authentication")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
@@ -262,8 +134,6 @@ def show_admin_login():
                 st.session_state.user_type = None
                 st.rerun()
         
-        st.markdown('</div>', unsafe_allow_html=True)
-        
         if submitted:
             # Simple authentication (replace with secure auth in production)
             if username == "admin" and password == "harem2025":
@@ -275,12 +145,8 @@ def show_admin_login():
                 st.error("❌ Invalid credentials")
 
 def show_applicant_login():
-    st.markdown("""
-    <div class="main-header">
-        <h1>📝 Applicant Portal</h1>
-        <p>Access Your Application Status</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("📝 Applicant Portal")
+    st.subheader("Access Your Application Status")
     
     # Applicant login/register options
     tab1, tab2 = st.tabs(["Login", "New Applicant"])
@@ -310,16 +176,9 @@ def show_applicant_login():
                     st.error("❌ Please enter both email and password")
     
     with tab2:
-        st.markdown("""
-        <div class="info-box">
-            <h3>New Applicant?</h3>
-            <p>If you're new to our system, you can either:</p>
-            <ul>
-                <li><strong>Submit a new application</strong> - Start the application process</li>
-                <li><strong>Create an account</strong> - If you already have an application ID</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        st.info("**New Applicant?** If you're new to our system, you can either:")
+        st.write("• **Submit a new application** - Start the application process")
+        st.write("• **Create an account** - If you already have an application ID")
         
         col1, col2 = st.columns(2)
         
@@ -334,15 +193,9 @@ def show_applicant_login():
                 st.rerun()
 
 def show_application_form():
-    st.markdown("""
-    <div class="info-box">
-        <h3>📝 Application Instructions</h3>
-        <p>Please fill out the application form below completely and accurately. All information will be kept confidential and secure.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("📝 **Application Instructions:** Please fill out the application form below completely and accurately. All information will be kept confidential and secure.")
     
     with st.form("harem_application_form"):
-        st.markdown('<div class="application-form">', unsafe_allow_html=True)
         
         # Personal Information Section
         st.header("👤 Personal Information")
@@ -450,7 +303,6 @@ def show_application_form():
             help="You must agree to the terms to submit your application"
         )
         
-        st.markdown('</div>', unsafe_allow_html=True)
         
         # Submit button
         col1, col2 = st.columns(2)
@@ -464,17 +316,9 @@ def show_application_form():
         if submitted:
             # Validation
             if not agree_terms:
-                st.markdown("""
-                <div class="error-message">
-                    <strong>Error:</strong> You must agree to the terms and conditions to submit your application.
-                </div>
-                """, unsafe_allow_html=True)
+                st.error("❌ **Error:** You must agree to the terms and conditions to submit your application.")
             elif not all([first_name, last_name, email, age, location, interests]):
-                st.markdown("""
-                <div class="error-message">
-                    <strong>Error:</strong> Please fill in all required fields (marked with *).
-                </div>
-                """, unsafe_allow_html=True)
+                st.error("❌ **Error:** Please fill in all required fields (marked with *).")
             else:
                 # Prepare application data
                 application_data = {
@@ -515,14 +359,10 @@ def show_application_form():
                 st.session_state.application_data = application_data
                 st.session_state.application_submitted = True
                 
-                st.markdown("""
-                <div class="success-message">
-                    <h3>✅ Application Submitted Successfully!</h3>
-                    <p>Thank you for your application. We will review it and get back to you within 3-5 business days.</p>
-                    <p><strong>Application ID:</strong> {}</p>
-                    <p><strong>Next Steps:</strong> You can now create an account to track your application status.</p>
-                </div>
-                """.format(f"APP-{datetime.now().strftime('%Y%m%d%H%M%S')}"), unsafe_allow_html=True)
+                st.success("✅ **Application Submitted Successfully!**")
+                st.write("Thank you for your application. We will review it and get back to you within 3-5 business days.")
+                st.write(f"**Application ID:** APP-{datetime.now().strftime('%Y%m%d%H%M%S')}")
+                st.write("**Next Steps:** You can now create an account to track your application status.")
                 
                 # Show option to create account
                 if st.button("🔑 Create Account to Track Status", use_container_width=True):
@@ -530,12 +370,8 @@ def show_application_form():
                     st.rerun()
 
 def show_applicant_dashboard():
-    st.markdown("""
-    <div class="main-header">
-        <h1>📝 Applicant Dashboard</h1>
-        <p>Welcome back, {}</p>
-    </div>
-    """.format(st.session_state.current_user.get('email', 'User')), unsafe_allow_html=True)
+    st.title("📝 Applicant Dashboard")
+    st.subheader(f"Welcome back, {st.session_state.current_user.get('email', 'User')}")
     
     # Applicant navigation
     st.sidebar.title("Applicant Menu")
@@ -554,15 +390,12 @@ def show_applicant_dashboard():
         st.header("📊 Your Dashboard")
         
         # Mock application status
-        st.markdown("""
-        <div class="application-card">
-            <h3>📋 Your Application Status</h3>
-            <p><strong>Application ID:</strong> APP-20250115123456</p>
-            <p><strong>Status:</strong> <span class="status-review">Under Review</span></p>
-            <p><strong>Submitted:</strong> January 15, 2025</p>
-            <p><strong>Estimated Review Time:</strong> 3-5 business days</p>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container():
+            st.subheader("📋 Your Application Status")
+            st.write("**Application ID:** APP-20250115123456")
+            st.write("**Status:** Under Review")
+            st.write("**Submitted:** January 15, 2025")
+            st.write("**Estimated Review Time:** 3-5 business days")
         
         # Recent activity
         st.subheader("📈 Recent Activity")
@@ -572,14 +405,11 @@ def show_applicant_dashboard():
         st.header("📋 My Applications")
         
         # Show application history
-        st.markdown("""
-        <div class="application-card">
-            <h4>Application #1 - APP-20250115123456</h4>
-            <p><strong>Status:</strong> <span class="status-review">Under Review</span></p>
-            <p><strong>Submitted:</strong> January 15, 2025</p>
-            <p><strong>Last Updated:</strong> January 15, 2025</p>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container():
+            st.subheader("Application #1 - APP-20250115123456")
+            st.write("**Status:** Under Review")
+            st.write("**Submitted:** January 15, 2025")
+            st.write("**Last Updated:** January 15, 2025")
     
     elif applicant_page == "Profile":
         st.header("👤 My Profile")
@@ -590,12 +420,8 @@ def show_applicant_dashboard():
         st.info("Communication features will be available after application approval.")
 
 def show_admin_dashboard():
-    st.markdown("""
-    <div class="admin-header">
-        <h1>👑 Admin Dashboard</h1>
-        <p>Welcome back, {}</p>
-    </div>
-    """.format(st.session_state.current_user.get('username', 'Admin')), unsafe_allow_html=True)
+    st.title("👑 Admin Dashboard")
+    st.subheader(f"Welcome back, {st.session_state.current_user.get('username', 'Admin')}")
     
     # Admin navigation
     st.sidebar.title("Admin Menu")
@@ -696,16 +522,11 @@ def show_admin_overview():
     applications = get_sample_applications()
     
     for app in applications[:3]:  # Show first 3
-        with st.container():
-            st.markdown(f"""
-            <div class="application-card">
-                <h4>{app['name']} - {app['id']}</h4>
-                <p><strong>Email:</strong> {app['email']} | <strong>Age:</strong> {app['age']} | <strong>Location:</strong> {app['location']}</p>
-                <p><strong>Status:</strong> <span class="status-{app['status']}">{app['status'].replace('_', ' ').title()}</span> | <strong>Submitted:</strong> {app['submitted_at']}</p>
-                <p><strong>Experience:</strong> {app['experience']}</p>
-                <p><strong>Interests:</strong> {app['interests']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+        with st.expander(f"{app['name']} - {app['id']}"):
+            st.write(f"**Email:** {app['email']} | **Age:** {app['age']} | **Location:** {app['location']}")
+            st.write(f"**Status:** {app['status'].replace('_', ' ').title()} | **Submitted:** {app['submitted_at']}")
+            st.write(f"**Experience:** {app['experience']}")
+            st.write(f"**Interests:** {app['interests']}")
 
 def show_admin_applications():
     st.header("📋 Application Management")
@@ -937,11 +758,7 @@ def main():
     
     # Footer
     st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; color: #666; padding: 1rem;">
-        <p>© 2025 Harem CRM. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("© 2025 Harem CRM. All rights reserved.")
 
 if __name__ == "__main__":
     main()
