@@ -34,33 +34,6 @@ st.markdown("""
         text-align: center;
         margin-bottom: 2rem;
     }
-    .landing-container {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin: 2rem 0;
-    }
-    .landing-card {
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 15px;
-        border: 2px solid #e9ecef;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-        min-width: 300px;
-    }
-    .landing-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-    .admin-card {
-        border-color: #2c3e50;
-    }
-    .applicant-card {
-        border-color: #667eea;
-    }
     .application-form {
         background: #f8f9fa;
         padding: 2rem;
@@ -107,14 +80,6 @@ st.markdown("""
     .status-approved { color: #28a745; font-weight: bold; }
     .status-rejected { color: #dc3545; font-weight: bold; }
     .status-review { color: #17a2b8; font-weight: bold; }
-    .login-form {
-        background: #f8f9fa;
-        padding: 2rem;
-        border-radius: 10px;
-        border: 1px solid #e9ecef;
-        max-width: 400px;
-        margin: 0 auto;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -172,166 +137,33 @@ def get_sample_analytics():
         "avg_response_time": "2.3 days"
     }
 
-# Session state management
-def init_session_state():
-    if 'user_type' not in st.session_state:
-        st.session_state.user_type = None
+# Admin authentication
+def check_admin_auth():
     if 'admin_authenticated' not in st.session_state:
         st.session_state.admin_authenticated = False
-    if 'applicant_authenticated' not in st.session_state:
-        st.session_state.applicant_authenticated = False
-    if 'current_user' not in st.session_state:
-        st.session_state.current_user = None
+    return st.session_state.admin_authenticated
 
-def show_landing_page():
-    st.markdown("""
-    <div class="main-header">
-        <h1>🏛️ Harem CRM</h1>
-        <p>Professional Application Management System</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-        <h3>Welcome to Harem CRM</h3>
-        <p>Please select your role to continue:</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Landing page with role selection
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        <div class="landing-card admin-card">
-            <h2>👑 Admin Access</h2>
-            <p>Manage applications, view analytics, and control the system</p>
-            <p><strong>Features:</strong></p>
-            <ul style="text-align: left;">
-                <li>View all applications</li>
-                <li>Approve/reject candidates</li>
-                <li>Analytics and reporting</li>
-                <li>System settings</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("🔐 Admin Login", use_container_width=True):
-            st.session_state.user_type = "admin"
-            st.rerun()
-    
-    with col2:
-        st.markdown("""
-        <div class="landing-card applicant-card">
-            <h2>📝 Applicant Portal</h2>
-            <p>Submit applications, check status, and manage your profile</p>
-            <p><strong>Features:</strong></p>
-            <ul style="text-align: left;">
-                <li>Submit new applications</li>
-                <li>Check application status</li>
-                <li>Update your profile</li>
-                <li>View your progress</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("📋 Applicant Portal", use_container_width=True):
-            st.session_state.user_type = "applicant"
-            st.rerun()
-
-def show_admin_login():
+def admin_login():
     st.markdown("""
     <div class="admin-header">
-        <h1>👑 Admin Login</h1>
+        <h1>👑 Harem CRM Admin Dashboard</h1>
         <p>Owner/Admin Access Required</p>
     </div>
     """, unsafe_allow_html=True)
     
     with st.form("admin_login"):
-        st.markdown('<div class="login-form">', unsafe_allow_html=True)
-        
-        st.subheader("🔐 Admin Authentication")
+        st.subheader("🔐 Admin Login")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            submitted = st.form_submit_button("Login", use_container_width=True)
-        with col2:
-            if st.form_submit_button("Back to Landing", use_container_width=True):
-                st.session_state.user_type = None
-                st.rerun()
-        
-        st.markdown('</div>', unsafe_allow_html=True)
+        submitted = st.form_submit_button("Login")
         
         if submitted:
             # Simple authentication (replace with secure auth in production)
             if username == "admin" and password == "harem2025":
                 st.session_state.admin_authenticated = True
-                st.session_state.current_user = {"username": username, "role": "admin"}
-                st.success("✅ Admin login successful!")
                 st.rerun()
             else:
-                st.error("❌ Invalid credentials")
-
-def show_applicant_login():
-    st.markdown("""
-    <div class="main-header">
-        <h1>📝 Applicant Portal</h1>
-        <p>Access Your Application Status</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Applicant login/register options
-    tab1, tab2 = st.tabs(["Login", "New Applicant"])
-    
-    with tab1:
-        with st.form("applicant_login"):
-            st.subheader("🔐 Applicant Login")
-            email = st.text_input("Email Address")
-            password = st.text_input("Password", type="password")
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                submitted = st.form_submit_button("Login", use_container_width=True)
-            with col2:
-                if st.form_submit_button("Back to Landing", use_container_width=True):
-                    st.session_state.user_type = None
-                    st.rerun()
-            
-            if submitted:
-                if email and password:
-                    # Simple demo authentication
-                    st.session_state.applicant_authenticated = True
-                    st.session_state.current_user = {"email": email, "role": "applicant"}
-                    st.success("✅ Login successful!")
-                    st.rerun()
-                else:
-                    st.error("❌ Please enter both email and password")
-    
-    with tab2:
-        st.markdown("""
-        <div class="info-box">
-            <h3>New Applicant?</h3>
-            <p>If you're new to our system, you can either:</p>
-            <ul>
-                <li><strong>Submit a new application</strong> - Start the application process</li>
-                <li><strong>Create an account</strong> - If you already have an application ID</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            if st.button("📝 Submit New Application", use_container_width=True):
-                st.session_state.show_application_form = True
-                st.rerun()
-        
-        with col2:
-            if st.button("🔑 Create Account", use_container_width=True):
-                st.session_state.show_register_form = True
-                st.rerun()
+                st.error("Invalid credentials")
 
 def show_application_form():
     st.markdown("""
@@ -453,13 +285,7 @@ def show_application_form():
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Submit button
-        col1, col2 = st.columns(2)
-        with col1:
-            submitted = st.form_submit_button("🚀 Submit Application", use_container_width=True)
-        with col2:
-            if st.form_submit_button("← Back to Portal", use_container_width=True):
-                st.session_state.show_application_form = False
-                st.rerun()
+        submitted = st.form_submit_button("🚀 Submit Application", use_container_width=True)
         
         if submitted:
             # Validation
@@ -520,85 +346,48 @@ def show_application_form():
                     <h3>✅ Application Submitted Successfully!</h3>
                     <p>Thank you for your application. We will review it and get back to you within 3-5 business days.</p>
                     <p><strong>Application ID:</strong> {}</p>
-                    <p><strong>Next Steps:</strong> You can now create an account to track your application status.</p>
                 </div>
                 """.format(f"APP-{datetime.now().strftime('%Y%m%d%H%M%S')}"), unsafe_allow_html=True)
-                
-                # Show option to create account
-                if st.button("🔑 Create Account to Track Status", use_container_width=True):
-                    st.session_state.show_register_form = True
-                    st.rerun()
 
-def show_applicant_dashboard():
+def show_application_status():
+    st.header("🔍 Check Application Status")
+    
     st.markdown("""
-    <div class="main-header">
-        <h1>📝 Applicant Dashboard</h1>
-        <p>Welcome back, {}</p>
+    <div class="info-box">
+        <p>Enter your email address to check the status of your application.</p>
     </div>
-    """.format(st.session_state.current_user.get('email', 'User')), unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
     
-    # Applicant navigation
-    st.sidebar.title("Applicant Menu")
-    applicant_page = st.sidebar.selectbox(
-        "Choose a section:",
-        ["Dashboard", "My Applications", "Profile", "Messages", "Logout"]
-    )
+    email = st.text_input("Email Address", help="Enter the email address you used for your application")
     
-    if applicant_page == "Logout":
-        st.session_state.applicant_authenticated = False
-        st.session_state.current_user = None
-        st.session_state.user_type = None
-        st.rerun()
-    
-    elif applicant_page == "Dashboard":
-        st.header("📊 Your Dashboard")
-        
-        # Mock application status
-        st.markdown("""
-        <div class="application-card">
-            <h3>📋 Your Application Status</h3>
-            <p><strong>Application ID:</strong> APP-20250115123456</p>
-            <p><strong>Status:</strong> <span class="status-review">Under Review</span></p>
-            <p><strong>Submitted:</strong> January 15, 2025</p>
-            <p><strong>Estimated Review Time:</strong> 3-5 business days</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Recent activity
-        st.subheader("📈 Recent Activity")
-        st.info("Your application is currently being reviewed by our team. We'll notify you as soon as we have an update.")
-    
-    elif applicant_page == "My Applications":
-        st.header("📋 My Applications")
-        
-        # Show application history
-        st.markdown("""
-        <div class="application-card">
-            <h4>Application #1 - APP-20250115123456</h4>
-            <p><strong>Status:</strong> <span class="status-review">Under Review</span></p>
-            <p><strong>Submitted:</strong> January 15, 2025</p>
-            <p><strong>Last Updated:</strong> January 15, 2025</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    elif applicant_page == "Profile":
-        st.header("👤 My Profile")
-        st.info("Profile management features will be available after application approval.")
-    
-    elif applicant_page == "Messages":
-        st.header("💬 Messages")
-        st.info("Communication features will be available after application approval.")
+    if st.button("Check Status", use_container_width=True):
+        if email:
+            # Mock status check
+            st.markdown("""
+            <div class="success-message">
+                <h3>📊 Application Status</h3>
+                <p><strong>Status:</strong> Under Review</p>
+                <p><strong>Submitted:</strong> {}</p>
+                <p><strong>Estimated Review Time:</strong> 3-5 business days</p>
+            </div>
+            """.format(datetime.now().strftime('%B %d, %Y')), unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class="error-message">
+                <strong>Error:</strong> Please enter your email address.
+            </div>
+            """, unsafe_allow_html=True)
 
 def show_admin_dashboard():
     st.markdown("""
     <div class="admin-header">
-        <h1>👑 Admin Dashboard</h1>
-        <p>Welcome back, {}</p>
+        <h1>👑 Harem CRM Admin Dashboard</h1>
+        <p>Complete Application Management System</p>
     </div>
-    """.format(st.session_state.current_user.get('username', 'Admin')), unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
     
-    # Admin navigation
-    st.sidebar.title("Admin Menu")
+    # Sidebar navigation
+    st.sidebar.title("Admin Navigation")
     admin_page = st.sidebar.selectbox(
         "Choose a section:",
         ["Dashboard Overview", "Applications", "Analytics", "Settings", "Logout"]
@@ -606,8 +395,6 @@ def show_admin_dashboard():
     
     if admin_page == "Logout":
         st.session_state.admin_authenticated = False
-        st.session_state.current_user = None
-        st.session_state.user_type = None
         st.rerun()
     
     elif admin_page == "Dashboard Overview":
@@ -912,28 +699,128 @@ def show_admin_settings():
         st.text_input("Webhook URL", value="https://your-webhook.com/endpoint")
         st.checkbox("Enable Analytics", value=True)
 
-def main():
-    # Initialize session state
-    init_session_state()
+def show_about():
+    st.header("🏛️ About Harem CRM")
     
-    # Main routing logic
-    if st.session_state.admin_authenticated:
-        show_admin_dashboard()
-    elif st.session_state.applicant_authenticated:
-        show_applicant_dashboard()
-    elif st.session_state.user_type == "admin":
-        show_admin_login()
-    elif st.session_state.user_type == "applicant":
-        show_applicant_login()
-    elif st.session_state.get('show_application_form'):
-        show_application_form()
-    elif st.session_state.get('show_register_form'):
-        st.info("Account registration features will be available after application approval.")
-        if st.button("← Back to Portal"):
-            st.session_state.show_register_form = False
+    st.markdown("""
+    <div class="info-box">
+        <h3>Professional Application Management System</h3>
+        <p>Harem CRM is a comprehensive application management system designed to streamline the recruitment and management process for professional services.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("🎯 Our Mission")
+        st.write("""
+        To provide a secure, efficient, and professional platform for managing applications and building strong professional relationships.
+        """)
+        
+        st.subheader("🔒 Security & Privacy")
+        st.write("""
+        - End-to-end encryption for all sensitive data
+        - GDPR and CCPA compliant
+        - Secure file upload and storage
+        - Regular security audits
+        """)
+    
+    with col2:
+        st.subheader("✨ Features")
+        st.write("""
+        - Comprehensive application forms
+        - Real-time status tracking
+        - Secure document management
+        - Professional communication tools
+        """)
+        
+        st.subheader("📊 Analytics")
+        st.write("""
+        - Application tracking and analytics
+        - Performance metrics
+        - Reporting and insights
+        - Data-driven decision making
+        """)
+
+def show_contact():
+    st.header("📞 Contact Information")
+    
+    st.markdown("""
+    <div class="info-box">
+        <h3>Get in Touch</h3>
+        <p>Have questions about the application process or need assistance? We're here to help.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("📧 Email Support")
+        st.write("**General Inquiries:** support@harem-crm.com")
+        st.write("**Technical Support:** tech@harem-crm.com")
+        st.write("**Privacy Questions:** privacy@harem-crm.com")
+    
+    with col2:
+        st.subheader("⏰ Support Hours")
+        st.write("**Monday - Friday:** 9:00 AM - 6:00 PM EST")
+        st.write("**Saturday:** 10:00 AM - 4:00 PM EST")
+        st.write("**Sunday:** Closed")
+    
+    st.subheader("🔒 Privacy & Security")
+    st.write("""
+    - All communications are encrypted and secure
+    - Your privacy is our top priority
+    - We never share your information without consent
+    - Regular security audits ensure your data is protected
+    """)
+
+def main():
+    # Main header
+    st.markdown("""
+    <div class="main-header">
+        <h1>🏛️ Harem CRM - Complete System</h1>
+        <p>Professional Application Management & Admin Dashboard</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    
+    # Check if user is admin
+    if check_admin_auth():
+        # Admin is logged in
+        st.sidebar.success("👑 Admin Access")
+        if st.sidebar.button("Logout"):
+            st.session_state.admin_authenticated = False
             st.rerun()
+        
+        # Admin navigation
+        page = st.sidebar.selectbox(
+            "Choose a page:",
+            ["Admin Dashboard", "Public Application Form", "Application Status", "About", "Contact"]
+        )
     else:
-        show_landing_page()
+        # Public user
+        page = st.sidebar.selectbox(
+            "Choose a page:",
+            ["Application Form", "Application Status", "About", "Contact", "Admin Login"]
+        )
+    
+    # Route to appropriate page
+    if page == "Admin Login":
+        admin_login()
+    elif page == "Admin Dashboard":
+        show_admin_dashboard()
+    elif page == "Public Application Form":
+        show_application_form()
+    elif page == "Application Form":
+        show_application_form()
+    elif page == "Application Status":
+        show_application_status()
+    elif page == "About":
+        show_about()
+    elif page == "Contact":
+        show_contact()
     
     # Footer
     st.markdown("---")
