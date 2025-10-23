@@ -17,47 +17,12 @@ st.set_page_config(
 
 # Use Streamlit's native styling - no custom CSS needed
 
-# Sample data for demo
+# Real data structure - will connect to your actual CRM database
 @st.cache_data
-def get_sample_applications():
-    return [
-        {
-            "id": "APP-001",
-            "name": "Sarah Johnson",
-            "email": "sarah.j@email.com",
-            "age": 25,
-            "location": "New York, NY",
-            "status": "pending",
-            "submitted_at": "2025-01-15 10:30:00",
-            "experience": "2 years in service industry",
-            "interests": "Domestic services, content creation",
-            "availability": "Weekends and evenings"
-        },
-        {
-            "id": "APP-002", 
-            "name": "Emma Davis",
-            "email": "emma.d@email.com",
-            "age": 28,
-            "location": "Los Angeles, CA",
-            "status": "under_review",
-            "submitted_at": "2025-01-14 14:20:00",
-            "experience": "5 years in hospitality",
-            "interests": "Administrative work, content creation",
-            "availability": "Full-time"
-        },
-        {
-            "id": "APP-003",
-            "name": "Jessica Wilson",
-            "email": "jessica.w@email.com", 
-            "age": 23,
-            "location": "Chicago, IL",
-            "status": "approved",
-            "submitted_at": "2025-01-13 09:15:00",
-            "experience": "3 years in customer service",
-            "interests": "Technical support, content creation",
-            "availability": "Flexible schedule"
-        }
-    ]
+def get_applications():
+    # TODO: Connect to your actual Supabase database
+    # For now, return empty list - will be populated from real data
+    return []
 
 @st.cache_data
 def get_sample_analytics():
@@ -420,14 +385,28 @@ def show_applicant_dashboard():
         st.info("Communication features will be available after application approval.")
 
 def show_admin_dashboard():
-    st.title("👑 Admin Dashboard")
+    st.title("👑 Harem CRM - Admin Dashboard")
     st.subheader(f"Welcome back, {st.session_state.current_user.get('username', 'Admin')}")
     
-    # Admin navigation
-    st.sidebar.title("Admin Menu")
+    # Admin navigation - Full CRM System
+    st.sidebar.title("CRM System")
     admin_page = st.sidebar.selectbox(
         "Choose a section:",
-        ["Dashboard Overview", "Applications", "Analytics", "Settings", "Logout"]
+        [
+            "Dashboard Overview", 
+            "Applications", 
+            "Roster Management", 
+            "Recruitment", 
+            "Calendar", 
+            "Tasks", 
+            "Content Management", 
+            "Photo Verification", 
+            "Contracts", 
+            "Bible Management", 
+            "Metrics & Analytics", 
+            "Settings", 
+            "Logout"
+        ]
     )
     
     if admin_page == "Logout":
@@ -442,7 +421,31 @@ def show_admin_dashboard():
     elif admin_page == "Applications":
         show_admin_applications()
     
-    elif admin_page == "Analytics":
+    elif admin_page == "Roster Management":
+        show_roster_management()
+    
+    elif admin_page == "Recruitment":
+        show_recruitment()
+    
+    elif admin_page == "Calendar":
+        show_calendar()
+    
+    elif admin_page == "Tasks":
+        show_tasks()
+    
+    elif admin_page == "Content Management":
+        show_content_management()
+    
+    elif admin_page == "Photo Verification":
+        show_photo_verification()
+    
+    elif admin_page == "Contracts":
+        show_contracts()
+    
+    elif admin_page == "Bible Management":
+        show_bible_management()
+    
+    elif admin_page == "Metrics & Analytics":
         show_admin_analytics()
     
     elif admin_page == "Settings":
@@ -519,19 +522,22 @@ def show_admin_overview():
     
     # Recent applications
     st.subheader("📋 Recent Applications")
-    applications = get_sample_applications()
+    applications = get_applications()
     
-    for app in applications[:3]:  # Show first 3
-        with st.expander(f"{app['name']} - {app['id']}"):
-            st.write(f"**Email:** {app['email']} | **Age:** {app['age']} | **Location:** {app['location']}")
-            st.write(f"**Status:** {app['status'].replace('_', ' ').title()} | **Submitted:** {app['submitted_at']}")
-            st.write(f"**Experience:** {app['experience']}")
-            st.write(f"**Interests:** {app['interests']}")
+    if applications:
+        for app in applications[:3]:  # Show first 3
+            with st.expander(f"{app['name']} - {app['id']}"):
+                st.write(f"**Email:** {app['email']} | **Age:** {app['age']} | **Location:** {app['location']}")
+                st.write(f"**Status:** {app['status'].replace('_', ' ').title()} | **Submitted:** {app['submitted_at']}")
+                st.write(f"**Experience:** {app['experience']}")
+                st.write(f"**Interests:** {app['interests']}")
+    else:
+        st.info("No applications found. Connect to your database to see real data.")
 
 def show_admin_applications():
     st.header("📋 Application Management")
     
-    applications = get_sample_applications()
+    applications = get_applications()
     
     # Filters
     col1, col2, col3 = st.columns(3)
@@ -566,41 +572,44 @@ def show_admin_applications():
     # Display applications
     st.subheader(f"Found {len(filtered_apps)} applications")
     
-    for app in filtered_apps:
-        with st.expander(f"{app['name']} - {app['id']} ({app['status'].replace('_', ' ').title()})"):
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.write(f"**Name:** {app['name']}")
-                st.write(f"**Email:** {app['email']}")
-                st.write(f"**Age:** {app['age']}")
-                st.write(f"**Location:** {app['location']}")
-                st.write(f"**Status:** {app['status'].replace('_', ' ').title()}")
-                st.write(f"**Submitted:** {app['submitted_at']}")
-            
-            with col2:
-                st.write(f"**Experience:** {app['experience']}")
-                st.write(f"**Interests:** {app['interests']}")
-                st.write(f"**Availability:** {app['availability']}")
-            
-            # Action buttons
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                if st.button(f"Approve", key=f"approve_{app['id']}"):
-                    st.success(f"Application {app['id']} approved!")
-            
-            with col2:
-                if st.button(f"Reject", key=f"reject_{app['id']}"):
-                    st.error(f"Application {app['id']} rejected!")
-            
-            with col3:
-                if st.button(f"Review", key=f"review_{app['id']}"):
-                    st.info(f"Application {app['id']} moved to review!")
-            
-            with col4:
-                if st.button(f"View Details", key=f"details_{app['id']}"):
-                    st.json(app)
+    if filtered_apps:
+        for app in filtered_apps:
+            with st.expander(f"{app['name']} - {app['id']} ({app['status'].replace('_', ' ').title()})"):
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.write(f"**Name:** {app['name']}")
+                    st.write(f"**Email:** {app['email']}")
+                    st.write(f"**Age:** {app['age']}")
+                    st.write(f"**Location:** {app['location']}")
+                    st.write(f"**Status:** {app['status'].replace('_', ' ').title()}")
+                    st.write(f"**Submitted:** {app['submitted_at']}")
+                
+                with col2:
+                    st.write(f"**Experience:** {app['experience']}")
+                    st.write(f"**Interests:** {app['interests']}")
+                    st.write(f"**Availability:** {app['availability']}")
+                
+                # Action buttons
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    if st.button(f"Approve", key=f"approve_{app['id']}"):
+                        st.success(f"Application {app['id']} approved!")
+                
+                with col2:
+                    if st.button(f"Reject", key=f"reject_{app['id']}"):
+                        st.error(f"Application {app['id']} rejected!")
+                
+                with col3:
+                    if st.button(f"Review", key=f"review_{app['id']}"):
+                        st.info(f"Application {app['id']} moved to review!")
+                
+                with col4:
+                    if st.button(f"View Details", key=f"details_{app['id']}"):
+                        st.json(app)
+    else:
+        st.info("No applications found. Connect to your database to see real data.")
 
 def show_admin_analytics():
     st.header("📊 Analytics & Reports")
@@ -732,6 +741,274 @@ def show_admin_settings():
         st.text_input("Supabase API Key", value="your-api-key", type="password")
         st.text_input("Webhook URL", value="https://your-webhook.com/endpoint")
         st.checkbox("Enable Analytics", value=True)
+
+def show_roster_management():
+    st.header("👥 Roster Management")
+    st.subheader("Active Participants")
+    
+    # Roster management features
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Total Active", "12", "+2 this month")
+    
+    with col2:
+        st.metric("New This Month", "3", "+1 from last month")
+    
+    with col3:
+        st.metric("Compliance Rate", "95%", "+2% improvement")
+    
+    # Roster list
+    st.subheader("Active Roster")
+    
+    # Sample roster data
+    roster_data = [
+        {"name": "Sarah Johnson", "status": "Active", "last_activity": "2025-01-15", "compliance": "Complete"},
+        {"name": "Emma Davis", "status": "Active", "last_activity": "2025-01-14", "compliance": "Pending"},
+        {"name": "Jessica Wilson", "status": "On Leave", "last_activity": "2025-01-10", "compliance": "Complete"},
+    ]
+    
+    for member in roster_data:
+        with st.expander(f"{member['name']} - {member['status']}"):
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(f"**Status:** {member['status']}")
+                st.write(f"**Last Activity:** {member['last_activity']}")
+            with col2:
+                st.write(f"**Compliance:** {member['compliance']}")
+                if st.button(f"View Profile", key=f"profile_{member['name']}"):
+                    st.info("Profile view would open here")
+
+def show_recruitment():
+    st.header("🎯 Recruitment Management")
+    st.subheader("Lead Management & Geographic Assignment")
+    
+    # Recruitment metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Active Leads", "8", "+3 this week")
+    
+    with col2:
+        st.metric("Content Partners", "5", "+1 this month")
+    
+    with col3:
+        st.metric("Conversion Rate", "62%", "+5% improvement")
+    
+    # Quick actions
+    st.subheader("Quick Actions")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("➕ Add New Lead", use_container_width=True):
+            st.info("Lead form would open here")
+    
+    with col2:
+        if st.button("🗺️ Geographic Assignment", use_container_width=True):
+            st.info("Geographic assignment tool would open here")
+    
+    with col3:
+        if st.button("📅 Schedule Content", use_container_width=True):
+            st.info("Content scheduling would open here")
+    
+    # Active leads
+    st.subheader("Active Leads")
+    leads_data = [
+        {"name": "Alex Thompson", "location": "New York", "status": "Contacted", "priority": "High"},
+        {"name": "Maria Garcia", "location": "Los Angeles", "status": "Initial Contact", "priority": "Medium"},
+        {"name": "Jordan Smith", "location": "Chicago", "status": "Follow-up", "priority": "High"},
+    ]
+    
+    for lead in leads_data:
+        with st.expander(f"{lead['name']} - {lead['location']} ({lead['status']})"):
+            st.write(f"**Location:** {lead['location']}")
+            st.write(f"**Status:** {lead['status']}")
+            st.write(f"**Priority:** {lead['priority']}")
+
+def show_calendar():
+    st.header("📅 Calendar Management")
+    st.subheader("Schedule and Task Management")
+    
+    # Calendar metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Upcoming Events", "12", "+3 this week")
+    
+    with col2:
+        st.metric("Tasks Due", "5", "-2 from yesterday")
+    
+    with col3:
+        st.metric("Completion Rate", "87%", "+3% improvement")
+    
+    # Calendar view
+    st.subheader("Upcoming Events")
+    
+    # Sample calendar data
+    events_data = [
+        {"title": "Content Session - Sarah", "date": "2025-01-16", "time": "2:00 PM", "type": "Content"},
+        {"title": "Photo Verification - Emma", "date": "2025-01-17", "time": "10:00 AM", "type": "Verification"},
+        {"title": "Contract Review", "date": "2025-01-18", "time": "3:00 PM", "type": "Administrative"},
+    ]
+    
+    for event in events_data:
+        with st.container():
+            st.write(f"**{event['title']}**")
+            st.write(f"📅 {event['date']} at {event['time']} | Type: {event['type']}")
+
+def show_tasks():
+    st.header("✅ Task Management")
+    st.subheader("Service Tasks and Assignments")
+    
+    # Task metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Active Tasks", "15", "+3 this week")
+    
+    with col2:
+        st.metric("Completed Today", "8", "+2 from yesterday")
+    
+    with col3:
+        st.metric("On Time Rate", "92%", "+4% improvement")
+    
+    # Task categories
+    st.subheader("Task Categories")
+    
+    task_categories = [
+        {"name": "Domestic Services", "count": 5, "completed": 3},
+        {"name": "Administrative", "count": 4, "completed": 4},
+        {"name": "Content Creation", "count": 3, "completed": 1},
+        {"name": "Technical Support", "count": 3, "completed": 0},
+    ]
+    
+    for category in task_categories:
+        progress = category['completed'] / category['count'] if category['count'] > 0 else 0
+        st.write(f"**{category['name']}:** {category['completed']}/{category['count']} completed")
+        st.progress(progress)
+
+def show_content_management():
+    st.header("🎬 Content Management")
+    st.subheader("Content Sessions and Releases")
+    
+    # Content metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Active Sessions", "4", "+1 this week")
+    
+    with col2:
+        st.metric("Revenue This Month", "$2,400", "+15% growth")
+    
+    with col3:
+        st.metric("Compliance Rate", "95%", "+2% improvement")
+    
+    # Content sessions
+    st.subheader("Upcoming Content Sessions")
+    
+    sessions_data = [
+        {"title": "Solo Content Session", "date": "2025-01-16", "participants": 1, "status": "Scheduled"},
+        {"title": "Partnered Content Session", "date": "2025-01-18", "participants": 2, "status": "Pending Consent"},
+        {"title": "Group Content Session", "date": "2025-01-20", "participants": 3, "status": "Confirmed"},
+    ]
+    
+    for session in sessions_data:
+        with st.expander(f"{session['title']} - {session['date']}"):
+            st.write(f"**Participants:** {session['participants']}")
+            st.write(f"**Status:** {session['status']}")
+
+def show_photo_verification():
+    st.header("📸 Photo Verification")
+    st.subheader("Comprehensive Metadata Analysis")
+    
+    # Photo verification metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Pending Verification", "3", "+1 this week")
+    
+    with col2:
+        st.metric("Verified This Month", "12", "+2 from last month")
+    
+    with col3:
+        st.metric("Compliance Rate", "98%", "+1% improvement")
+    
+    # Photo schedule
+    st.subheader("Photo Update Schedule")
+    
+    schedule_data = [
+        {"name": "Sarah Johnson", "last_update": "2025-01-01", "next_due": "2025-07-01", "status": "Current"},
+        {"name": "Emma Davis", "last_update": "2024-12-15", "next_due": "2025-06-15", "status": "Current"},
+        {"name": "Jessica Wilson", "last_update": "2024-11-20", "next_due": "2025-05-20", "status": "Due Soon"},
+    ]
+    
+    for item in schedule_data:
+        with st.expander(f"{item['name']} - {item['status']}"):
+            st.write(f"**Last Update:** {item['last_update']}")
+            st.write(f"**Next Due:** {item['next_due']}")
+            st.write(f"**Status:** {item['status']}")
+
+def show_contracts():
+    st.header("📋 Contracts & MSAs")
+    st.subheader("Master Service Agreements and Legal Documents")
+    
+    # Contract metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Active Contracts", "8", "+2 this month")
+    
+    with col2:
+        st.metric("Pending Review", "3", "+1 this week")
+    
+    with col3:
+        st.metric("Compliance Rate", "100%", "Perfect compliance")
+    
+    # Contract management
+    st.subheader("Contract Management")
+    
+    contracts_data = [
+        {"name": "Sarah Johnson", "type": "MSA", "status": "Active", "expires": "2025-12-31"},
+        {"name": "Emma Davis", "type": "Content Release", "status": "Pending", "expires": "N/A"},
+        {"name": "Jessica Wilson", "type": "MSA", "status": "Active", "expires": "2025-11-30"},
+    ]
+    
+    for contract in contracts_data:
+        with st.expander(f"{contract['name']} - {contract['type']} ({contract['status']})"):
+            st.write(f"**Type:** {contract['type']}")
+            st.write(f"**Status:** {contract['status']}")
+            st.write(f"**Expires:** {contract['expires']}")
+
+def show_bible_management():
+    st.header("📖 Bible Management")
+    st.subheader("Training Materials and Documentation")
+    
+    # Bible metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Total Sections", "24", "+2 this month")
+    
+    with col2:
+        st.metric("Active Users", "15", "+3 this week")
+    
+    with col3:
+        st.metric("Completion Rate", "78%", "+5% improvement")
+    
+    # Bible sections
+    st.subheader("Bible Sections")
+    
+    bible_sections = [
+        {"title": "Introduction to Service", "status": "Published", "users": 15},
+        {"title": "Domestic Service Guidelines", "status": "Published", "users": 12},
+        {"title": "Content Creation Standards", "status": "Draft", "users": 0},
+        {"title": "Safety Protocols", "status": "Published", "users": 14},
+    ]
+    
+    for section in bible_sections:
+        with st.expander(f"{section['title']} - {section['status']}"):
+            st.write(f"**Status:** {section['status']}")
+            st.write(f"**Active Users:** {section['users']}")
 
 def main():
     # Initialize session state

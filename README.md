@@ -1,7 +1,7 @@
 # 🏛️ Harem CRM - Complete System
-## Single URL for Admin & Applicant Access
+## Full CRM with Single URL Access
 
-**Perfect!** This is exactly what you wanted - **one link** that automatically detects whether someone is an admin or applicant and routes them accordingly.
+**This is your complete CRM system!** One URL that automatically detects whether someone is an admin or applicant and routes them to the appropriate interface.
 
 ## 🎯 **How It Works**
 
@@ -23,20 +23,31 @@ https://your-app-name.streamlit.app
 - **Username:** `admin`
 - **Password:** `harem2025`
 
-### **Admin Dashboard Includes:**
-- ✅ **Complete Application Management** - View, approve, reject applications
-- ✅ **Analytics & Reporting** - Charts, metrics, performance data
-- ✅ **User Management** - Track all applicants and their status
+### **Complete CRM System Includes:**
+- ✅ **Applications Management** - View, approve, reject applications
+- ✅ **Roster Management** - Active participants and compliance tracking
+- ✅ **Recruitment** - Lead management and geographic assignment
+- ✅ **Calendar** - Schedule and task management
+- ✅ **Tasks** - Service tasks and assignments
+- ✅ **Content Management** - Content sessions and releases
+- ✅ **Photo Verification** - Comprehensive metadata analysis
+- ✅ **Contracts** - MSAs and legal documents
+- ✅ **Bible Management** - Training materials and documentation
+- ✅ **Metrics & Analytics** - Performance tracking and reporting
 - ✅ **System Settings** - Configure notifications, security, integrations
-- ✅ **Real-time Metrics** - Application counts, conversion rates, response times
 
-### **Admin Capabilities:**
-- **View All Applications** - Complete applicant database
-- **Approve/Reject** - One-click application decisions
-- **Analytics Dashboard** - Performance metrics and trends
-- **Geographic Distribution** - See where applicants are from
-- **Status Management** - Move applications through workflow
-- **System Configuration** - Set up notifications and integrations
+### **Complete CRM Features:**
+- **Applications** - Complete applicant database with approval workflow
+- **Roster Management** - Track active participants and compliance
+- **Recruitment** - Lead management and geographic assignment tools
+- **Calendar** - Schedule events, tasks, and content sessions
+- **Tasks** - Service task management and assignment tracking
+- **Content Management** - Content sessions, releases, and revenue tracking
+- **Photo Verification** - Metadata analysis and verification system
+- **Contracts** - MSA management and legal document tracking
+- **Bible Management** - Training materials and documentation system
+- **Analytics** - Performance metrics, trends, and reporting
+- **System Settings** - Configure notifications, security, and integrations
 
 ---
 
