@@ -17,19 +17,39 @@ logger = logging.getLogger(__name__)
 def init_supabase() -> Client:
     """Initialize Supabase client with caching"""
     try:
-        url = os.environ.get("SUPABASE_URL") or st.secrets.get("supabase_url")
-        key = os.environ.get("SUPABASE_ANON_KEY") or st.secrets.get("supabase_anon_key")
+        # Try multiple ways to get credentials
+        url = None
+        key = None
+        
+        # Try environment variables first
+        url = os.environ.get("SUPABASE_URL")
+        key = os.environ.get("SUPABASE_ANON_KEY")
+        
+        # Try Streamlit secrets if env vars not found
+        if not url or not key:
+            try:
+                url = st.secrets.get("supabase", {}).get("url")
+                key = st.secrets.get("supabase", {}).get("anon_key")
+            except:
+                pass
+        
+        # Try direct secrets access
+        if not url or not key:
+            try:
+                url = st.secrets["supabase"]["url"]
+                key = st.secrets["supabase"]["anon_key"]
+            except:
+                pass
         
         if not url or not key:
-            st.error("❌ Supabase credentials not found. Please configure SUPABASE_URL and SUPABASE_ANON_KEY in your environment variables or Streamlit secrets.")
+            logger.warning("⚠️ Supabase credentials not found - using offline mode")
             return None
             
         supabase = create_client(url, key)
         logger.info("✅ Supabase client initialized successfully")
         return supabase
     except Exception as e:
-        logger.error(f"❌ Failed to initialize Supabase: {e}")
-        st.error(f"Database connection failed: {e}")
+        logger.warning(f"⚠️ Failed to initialize Supabase: {e}")
         return None
 
 @st.cache_data(ttl=300)  # Cache for 5 minutes
