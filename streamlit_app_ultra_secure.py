@@ -1320,10 +1320,8 @@ def show_comprehensive_application_form():
                                 if st.checkbox(kink, key=f"kink_{category_id}_{kink}"):
                                     selected_kinks.append(kink)
                         
-                        # Store selected kinks for this category
-                        if f'kinks_{category_id}' not in form_data:
-                            form_data[f'kinks_{category_id}'] = []
-                        form_data[f'kinks_{category_id}'] = selected_kinks
+                        # Store selected kinks for this category in session state
+                        st.session_state.comprehensive_form_data[f'kinks_{category_id}'] = selected_kinks
         
         col1, col2 = st.columns(2)
         with col1:
@@ -1333,9 +1331,18 @@ def show_comprehensive_application_form():
         
         with col2:
             if st.button("Next Step", type="primary"):
+                # Update form data with selected categories
                 st.session_state.comprehensive_form_data.update({
                     'selected_categories': selected_categories
                 })
+                
+                # Also store any selected kinks from the current session
+                for category_name in selected_categories:
+                    category_id = next(cat['id'] for cat in KINK_CATEGORIES if cat['name'] == category_name)
+                    if f'kinks_{category_id}' in st.session_state.comprehensive_form_data:
+                        # Keep the kinks that were selected
+                        pass
+                
                 st.session_state.comprehensive_form_step += 1
                 st.rerun()
     
