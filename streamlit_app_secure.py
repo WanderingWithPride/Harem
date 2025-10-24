@@ -127,13 +127,7 @@ def show_landing_page():
     st.subheader(PERSONAL_BRANDING['welcome_message'])
     
     # Welcome message
-    st.info(f"Welcome to the {PERSONAL_BRANDING['system_name']}! A comprehensive platform for harem management, training protocols, and innovative technology projects.")
-    
-    # Innovation project highlight
-    with st.expander(f"🚀 Innovation Project: {INNOVATION_PROJECT['name']}", expanded=False):
-        st.write(f"**{INNOVATION_PROJECT['description']}:**")
-        for feature in INNOVATION_PROJECT['features']:
-            st.write(f"• {feature}")
+    st.info(f"Welcome to the {PERSONAL_BRANDING['system_name']}! A comprehensive platform for harem management, training protocols, and system administration.")
     
     # Main action buttons
     st.markdown("---")

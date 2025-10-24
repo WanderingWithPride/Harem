@@ -92,16 +92,7 @@ def show_landing_page():
     st.subheader("Professional Harem Management System")
     
     # Welcome message
-    st.info("Welcome to the Harem CRM System! A comprehensive platform for harem management, training protocols, and innovative technology projects.")
-    
-    # Innovation project highlight
-    with st.expander("🚀 Innovation Project: Thirst Wave Communicators", expanded=False):
-        st.write("**Revolutionary Harem Technology:**")
-        st.write("• **Mesh Network Communication** - Offline, peer-to-peer communication")
-        st.write("• **AirTag-like Tracking** - GPS and proximity location services")
-        st.write("• **Emergency Features** - Safety and security protocols")
-        st.write("• **AI Integration** - Smart features and automation")
-        st.write("• **Privacy Controls** - Secure, encrypted communication")
+    st.info("Welcome to the Harem CRM System! A comprehensive platform for harem management, training protocols, and system administration.")
     
     # Main action buttons
     st.markdown("---")
