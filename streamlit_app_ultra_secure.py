@@ -202,11 +202,14 @@ def show_landing_page():
         for feature in INNOVATION_PROJECT['features']:
             st.write(f"• {feature}")
     
-    # Landing page with role selection
+    # Main action buttons
+    st.markdown("---")
+    st.subheader("Choose Your Access Level")
+    
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader(f"👑 {PERSONAL_BRANDING['admin_title']}")
+        st.markdown(f"### 👑 {PERSONAL_BRANDING['admin_title']}")
         st.write(PERSONAL_BRANDING['admin_description'])
         st.write("**Features:**")
         st.write("• View all applications")
@@ -215,23 +218,41 @@ def show_landing_page():
         st.write("• Training management")
         st.write("• Innovation project tracking")
         
-        if st.button("🔐 Admin Login", use_container_width=True):
+        if st.button("🔐 Admin Login", use_container_width=True, type="primary"):
             st.session_state.user_type = "admin"
             st.rerun()
     
     with col2:
-        st.subheader("📝 Applicant Portal")
-        st.write("Submit applications, check status, and manage your profile")
-        st.write("**Features:**")
+        st.markdown("### 📝 Submissive Portal")
+        st.write("**Submit applications and track your status**")
         st.write("• Submit new applications")
         st.write("• Check application status")
         st.write("• Update your profile")
         st.write("• View your progress")
         st.write("• Innovation project interest")
         
-        if st.button("📋 Applicant Portal", use_container_width=True):
+        if st.button("📋 Submissive Portal", use_container_width=True, type="secondary"):
             st.session_state.user_type = "applicant"
             st.rerun()
+    
+    # Additional options
+    st.markdown("---")
+    st.subheader("Quick Actions")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("📝 Submit Application", use_container_width=True):
+            st.session_state.show_application_form = True
+            st.rerun()
+    
+    with col2:
+        if st.button("📊 View System Info", use_container_width=True):
+            st.info("**System Status:** Ready for deployment with secure data management")
+    
+    with col3:
+        if st.button("🔒 Security Info", use_container_width=True):
+            st.info("**Security Status:** All data is encrypted and protected")
 
 def show_admin_login():
     st.title(f"👑 {PERSONAL_BRANDING['title']} Login")
