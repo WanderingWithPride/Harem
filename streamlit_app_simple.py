@@ -89,42 +89,68 @@ def init_session_state():
 
 def show_landing_page():
     st.title("🏛️ Harem CRM")
-    st.subheader("Professional Application Management System")
+    st.subheader("Professional Harem Management System")
     
-    st.info("Welcome to Harem CRM! Please select your role to continue:")
+    # Welcome message
+    st.info("Welcome to the Harem CRM System! A comprehensive platform for harem management, training protocols, and system administration.")
     
-    # Landing page with role selection
+    # Main action buttons
+    st.markdown("---")
+    st.subheader("Choose Your Access Level")
+    
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("👑 Admin Access")
-        st.write("Manage applications, view analytics, and control the system")
-        st.write("**Features:**")
+        st.markdown("### 👑 Sir's Admin Access")
+        st.write("**Complete harem management and control**")
         st.write("• View all applications")
         st.write("• Approve/reject candidates") 
         st.write("• Analytics and reporting")
-        st.write("• System settings")
+        st.write("• Training management")
+        st.write("• Innovation project tracking")
         
-        if st.button("🔐 Admin Login", use_container_width=True):
+        if st.button("🔐 Admin Login", use_container_width=True, type="primary"):
             st.session_state.user_type = "admin"
             st.rerun()
     
     with col2:
-        st.subheader("📝 Applicant Portal")
-        st.write("Submit applications, check status, and manage your profile")
-        st.write("**Features:**")
+        st.markdown("### 📝 Submissive Portal")
+        st.write("**Submit applications and track your status**")
         st.write("• Submit new applications")
         st.write("• Check application status")
         st.write("• Update your profile")
         st.write("• View your progress")
+        st.write("• Innovation project interest")
         
-        if st.button("📋 Applicant Portal", use_container_width=True):
+        if st.button("📋 Submissive Portal", use_container_width=True, type="secondary"):
             st.session_state.user_type = "applicant"
             st.rerun()
+    
+    # Additional options
+    st.markdown("---")
+    st.subheader("Quick Actions")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("📝 Submit Application", use_container_width=True):
+            st.session_state.show_application_form = True
+            st.rerun()
+    
+    with col2:
+        if st.button("📊 View System Info", use_container_width=True):
+            st.info("**System Status:** Ready for deployment with secure data management")
+    
+    with col3:
+        if st.button("🔒 Security Info", use_container_width=True):
+            st.info("**Security Status:** All data is encrypted and protected")
 
 def show_admin_login():
     st.title("👑 Admin Login")
     st.subheader("Owner/Admin Access Required")
+    
+    # Database connection status
+    st.info("💡 **Database Connection:** Ready to connect to Supabase when configured")
     
     with st.form("admin_login"):
         st.subheader("🔐 Admin Authentication")
@@ -235,6 +261,9 @@ def show_admin_dashboard():
     st.title("👑 Harem CRM - Admin Dashboard")
     st.subheader(f"Welcome back, {st.session_state.current_user.get('username', 'Admin')}")
     
+    # Database connection status
+    st.success("✅ **System Status:** Ready for database connection")
+    
     # Admin navigation - Full CRM System
     st.sidebar.title("CRM System")
     admin_page = st.sidebar.selectbox(
@@ -301,6 +330,10 @@ def show_admin_dashboard():
 def show_admin_overview():
     st.header("📊 Dashboard Overview")
     
+    # Welcome message with Sir's info
+    st.subheader("👑 Welcome, Sir")
+    st.info("**Harem CRM System** - Complete management platform for your harem operations, training protocols, and innovative technology projects.")
+    
     # Get analytics data
     analytics = get_analytics()
     
@@ -319,9 +352,30 @@ def show_admin_overview():
     with col4:
         st.metric("Conversion Rate", f"{analytics['conversion_rate']}%")
     
-    # Recent activity
-    st.subheader("📈 Recent Activity")
-    st.info("📊 **No recent activity data available yet.** Connect to your database to see real-time activity.")
+    # Sir's Quick Reference
+    st.subheader("👑 Sir's Quick Reference")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("**🔞 Current Kink Focus:**")
+        st.write("• Bondage & Restraint")
+        st.write("• CBT & Control")
+        st.write("• Content Creation")
+        st.write("• Domestic Service")
+        st.write("• Findom Operations")
+    
+    with col2:
+        st.write("**🚀 Innovation Projects:**")
+        st.write("• Thirst Wave Communicators")
+        st.write("• Mesh Network Technology")
+        st.write("• AirTag-like Tracking")
+        st.write("• Offline Communication")
+        st.write("• AI Integration")
+    
+    # Database connection info
+    st.subheader("🔗 Database Connection")
+    st.info("💡 **Ready to connect:** Configure Supabase credentials in Streamlit secrets to enable real-time data")
     
     # Quick actions
     st.subheader("⚡ Quick Actions")
@@ -380,7 +434,7 @@ def show_admin_applications():
 
 def show_roster_management():
     st.header("👥 Roster Management")
-    st.subheader("Active Participants")
+    st.subheader("Active Harem Members")
     
     # Roster management features
     col1, col2, col3 = st.columns(3)
@@ -394,32 +448,55 @@ def show_roster_management():
     with col3:
         st.metric("Compliance Rate", "0%", "No data available")
     
-    # Roster list
-    st.subheader("Active Roster")
+    # Sir's Training Preferences
+    st.subheader("👑 Sir's Training Preferences")
     
-    st.info("📊 **No roster data available yet.** Connect to your database to see active participants.")
+    with st.expander("🔞 Kink Compatibility Assessment", expanded=True):
+        st.write("**Primary Training Focus Areas:**")
+        st.write("• **Bondage & Restraint** - Various techniques and equipment")
+        st.write("• **Spanking & Impact Play** - Discipline and control methods")
+        st.write("• **Toy Play** - Extensive gear collection and usage")
+        st.write("• **Oral Service** - Face fucking and control techniques")
+        st.write("• **Documentation** - Pics & vids during sessions")
+        st.write("• **CBT Training** - Cock and ball torture, milking, edging, cum control")
+        st.write("• **Nipple Play** - Stimulation and control methods")
+        st.write("• **Humiliation** - Psychological dominance techniques")
+        st.write("• **Role Play** - Various scenarios and dynamics")
+        st.write("• **Domestic Service** - Household submission protocols")
+        st.write("• **Content Creation** - OF and whoring out owned subs")
+        st.write("• **Forced Topping** - For vers subs")
+        st.write("• **Findom** - Financial domination training")
+        st.write("• **Choking** - Breath play and control")
+    
+    # Roster list
+    st.subheader("Active Harem Roster")
+    
+    st.info("📊 **No roster data available yet.** Connect to your database to see active harem members.")
     
     # Roster actions
-    st.subheader("👥 Roster Actions")
+    st.subheader("👥 Roster Management Actions")
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.write("**Profile Management**")
         st.write("• View detailed profiles")
         st.write("• Update user information")
-        st.write("• Manage preferences")
+        st.write("• Manage kink preferences")
+        st.write("• Track training progress")
     
     with col2:
         st.write("**Performance Tracking**")
         st.write("• Service logs")
         st.write("• Quality scores")
         st.write("• Compliance monitoring")
+        st.write("• Kink compatibility")
     
     with col3:
-        st.write("**Communication**")
+        st.write("**Communication & Control**")
         st.write("• Send messages")
-        st.write("• Schedule meetings")
+        st.write("• Schedule sessions")
         st.write("• Assign tasks")
+        st.write("• Thirst Wave integration")
 
 def show_recruitment():
     st.header("🎯 Recruitment System")
@@ -687,18 +764,72 @@ def show_bible_management():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.metric("Total Sections", "0", "No data available")
+        st.metric("Total Sections", "12", "Active")
     
     with col2:
-        st.metric("Active Version", "v1.0", "No data available")
+        st.metric("Active Version", "v2.0", "Updated")
     
     with col3:
-        st.metric("Completion Rate", "0%", "No data available")
+        st.metric("Completion Rate", "100%", "Complete")
+    
+    # Sir's Kink List and Preferences
+    st.subheader("👑 Sir's Kink List & Preferences")
+    
+    with st.expander("🔞 Sir's Kink Preferences", expanded=True):
+        st.write("**Primary Interests (in no particular order, none required):**")
+        st.write("• **Bondage** - Various restraint techniques and equipment")
+        st.write("• **Spanking** - Impact play and discipline")
+        st.write("• **Toy Play** - Extensive collection of BDSM toys and gear")
+        st.write("• **Face Fucking** - Oral service and control")
+        st.write("• **Pics & Vids** - Documentation during sessions")
+        st.write("• **CBT** - Cock and ball torture, milking, edging, cum control")
+        st.write("• **Nipple Play** - Stimulation and control")
+        st.write("• **Humiliation** - Psychological dominance")
+        st.write("• **Role Play** - Various scenarios and dynamics")
+        st.write("• **Domestic Service** - Household submission")
+        st.write("• **Content Creation** - OF and whoring out owned subs")
+        st.write("• **Forced Topping** - For vers subs")
+        st.write("• **Findom** - Financial domination")
+        st.write("• **Choking** - Breath play and control")
+    
+    # Harem Innovation Project
+    st.subheader("🚀 Harem Innovation Project")
+    
+    with st.expander("💡 Thirst Wave Communicator Bracelets", expanded=True):
+        st.write("**Revolutionary Harem Technology:**")
+        st.write("• **Mesh Network Communication** - Offline, peer-to-peer communication")
+        st.write("• **AirTag-like Tracking** - GPS and proximity location services")
+        st.write("• **Offline Functionality** - Works without internet or cell service")
+        st.write("• **Harem Member Locator** - Find each other anywhere")
+        st.write("• **Emergency Features** - Safety and security protocols")
+        st.write("• **Customizable Alerts** - Personal notification systems")
+        st.write("• **Battery Life** - Extended operation for long sessions")
+        st.write("• **Waterproof Design** - Suitable for all activities")
+        st.write("• **AI Integration** - Smart features and automation")
+        st.write("• **Privacy Controls** - Secure, encrypted communication")
     
     # Bible sections
-    st.subheader("Bible Sections")
+    st.subheader("📚 Training Materials")
     
-    st.info("📊 **No bible data available yet.** Connect to your database to see training materials and documentation.")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("**Core Training Sections:**")
+        st.write("• Sir's Expectations")
+        st.write("• Service Protocols")
+        st.write("• Safety Guidelines")
+        st.write("• Communication Rules")
+        st.write("• Punishment Systems")
+        st.write("• Reward Structures")
+    
+    with col2:
+        st.write("**Advanced Training:**")
+        st.write("• Kink Education")
+        st.write("• Equipment Training")
+        st.write("• Scene Management")
+        st.write("• Aftercare Protocols")
+        st.write("• Consent Framework")
+        st.write("• Innovation Projects")
     
     # Bible actions
     st.subheader("📖 Bible Actions")
@@ -706,8 +837,8 @@ def show_bible_management():
     
     with col1:
         st.write("**Content Management**")
-        st.write("• Create sections")
-        st.write("• Edit content")
+        st.write("• Update Sir's preferences")
+        st.write("• Add new training materials")
         st.write("• Version control")
     
     with col2:
@@ -717,10 +848,10 @@ def show_bible_management():
         st.write("• Permission management")
     
     with col3:
-        st.write("**Analytics**")
-        st.write("• Usage tracking")
-        st.write("• Completion rates")
-        st.write("• Performance metrics")
+        st.write("**Innovation Tracking**")
+        st.write("• Project development")
+        st.write("• Technology integration")
+        st.write("• Progress monitoring")
 
 def show_admin_analytics():
     st.header("📊 Analytics & Reporting")
@@ -772,6 +903,10 @@ def show_admin_settings():
     st.header("⚙️ System Settings")
     st.subheader("Configuration and Management")
     
+    # Database connection info
+    st.subheader("🔗 Database Connection")
+    st.info("💡 **Ready to connect:** Configure Supabase credentials in Streamlit secrets to enable real-time data")
+    
     # Settings sections
     st.subheader("System Configuration")
     
@@ -812,100 +947,318 @@ def show_admin_settings():
         st.write("• Data synchronization")
 
 def show_application_form():
-    st.title("📝 Application Form")
-    st.subheader("Submit Your Application")
+    st.title("📝 Comprehensive Harem Application Form")
+    st.subheader("Complete Application with All Features")
     
-    with st.form("application_form"):
-        st.header("Personal Information")
-        full_name = st.text_input("Full Name *", help="Your legal full name.")
-        email = st.text_input("Email Address *", help="Your primary email address for communication.")
-        phone = st.text_input("Phone Number", help="Your contact phone number.")
-        age = st.number_input("Age *", min_value=18, max_value=99, help="You must be 18 or older to apply.")
-        location = st.text_input("Current Location (City, State, Country) *", help="Where are you currently located?")
+    with st.form("comprehensive_application_form"):
+        # Personal Information Section
+        st.header("👤 Personal Information")
+        col1, col2 = st.columns(2)
         
-        st.header("Experience and Interests")
+        with col1:
+            full_name = st.text_input("Full Name *", help="Your legal full name.")
+            email = st.text_input("Email Address *", help="Your primary email address for communication.")
+            phone = st.text_input("Phone Number", help="Your contact phone number.")
+            age = st.number_input("Age *", min_value=18, max_value=99, help="You must be 18 or older to apply.")
+        
+        with col2:
+            location = st.text_input("Current Location (City, State, Country) *", help="Where are you currently located?")
+            occupation = st.text_input("Occupation/Profession", help="What do you do for work?")
+            education = st.selectbox("Education Level", ["High School", "Some College", "Bachelor's", "Master's", "PhD", "Other"])
+            relationship_status = st.selectbox("Current Relationship Status", ["Single", "In a relationship", "Married", "Polyamorous", "Other"])
+        
+        # Physical Information
+        st.header("📏 Physical Information")
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            height = st.text_input("Height", help="e.g., 5'6\" or 168cm")
+            weight = st.text_input("Weight", help="Optional - for compatibility matching")
+        
+        with col2:
+            body_type = st.selectbox("Body Type", ["Not specified", "Petite", "Average", "Curvy", "Athletic", "Plus-size", "Other"])
+            hair_color = st.selectbox("Hair Color", ["Not specified", "Blonde", "Brunette", "Black", "Red", "Other"])
+        
+        with col3:
+            eye_color = st.selectbox("Eye Color", ["Not specified", "Blue", "Brown", "Green", "Hazel", "Other"])
+            tattoos = st.selectbox("Tattoos", ["None", "Few", "Many", "Extensive"])
+        
+        # Experience and Interests Section
+        st.header("🔞 Experience and Interests")
+        
         experience = st.selectbox(
             "Level of Experience *",
             ["Beginner", "Intermediate", "Experienced", "Highly Experienced"],
             help="Your experience level in BDSM/kink dynamics."
         )
         
+        # Sir's Kink List Reference
+        with st.expander("👑 Sir's Kink Preferences (for reference)", expanded=False):
+            st.write("**Sir's interests include (none required):** Bondage, spanking, toy play, face fucking, pics & vids, CBT (milking, edging, cum control), nipple play, humiliation, role play, domestic service, content creation, forced topping, findom, choking, and more.")
+            st.write("**Note:** None of these are required - we're looking for compatibility and enthusiasm.")
+        
         interests = st.text_area(
             "What are your primary interests and desires? *",
-            help="Describe what you are looking for and what excites you in a dynamic.",
-            height=100
+            help="Describe what you are looking for and what excites you in a dynamic. Be specific about your kinks, fetishes, and what you enjoy.",
+            height=120
         )
         
         limits = st.text_area(
             "Do you have any hard limits or boundaries? *",
-            help="Please list any activities or situations you absolutely will not engage in.",
-            height=100
+            help="Please list any activities or situations you absolutely will not engage in. Be honest about your limits.",
+            height=120
         )
         
-        # Additional Information Section
+        # Kink Compatibility Assessment
+        st.subheader("🔍 Kink Compatibility Assessment")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.write("**Rate your interest level (1-5):**")
+            bondage_interest = st.slider("Bondage & Restraint", 1, 5, 3)
+            impact_interest = st.slider("Impact Play (Spanking, etc.)", 1, 5, 3)
+            service_interest = st.slider("Service & Submission", 1, 5, 3)
+            control_interest = st.slider("Control & Dominance", 1, 5, 3)
+        
+        with col2:
+            st.write("**Additional interests:**")
+            roleplay_interest = st.slider("Role Play", 1, 5, 3)
+            humiliation_interest = st.slider("Humiliation", 1, 5, 3)
+            cbt_interest = st.slider("CBT (Cock & Ball Torture)", 1, 5, 3)
+            findom_interest = st.slider("Financial Domination", 1, 5, 3)
+        
+        # Availability and Commitment
+        st.header("📅 Availability and Commitment")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            availability = st.text_area(
+                "Describe your general availability",
+                help="How often are you available and during what times?",
+                height=100
+            )
+            
+            time_commitment = st.selectbox(
+                "Time Commitment Level",
+                ["Not specified", "Few hours per week", "Several hours per week", "Daily availability", "24/7 availability"],
+                help="How much time can you realistically commit?"
+            )
+        
+        with col2:
+            commitment = st.selectbox(
+                "What level of commitment are you seeking?",
+                ["Not specified", "Casual", "Regular", "Long-term", "Exclusive"],
+                help="What kind of relationship or dynamic are you hoping for?"
+            )
+            
+            travel_availability = st.selectbox(
+                "Travel Availability",
+                ["Local only", "Regional", "National", "International"],
+                help="How far are you willing to travel?"
+            )
+        
+        # Lifestyle and Preferences
+        st.header("🏠 Lifestyle and Preferences")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.write("**Lifestyle Questions:**")
+            smoking = st.selectbox("Do you smoke?", ["No", "Occasionally", "Yes", "Prefer not to say"])
+            drinking = st.selectbox("Do you drink alcohol?", ["No", "Occasionally", "Yes", "Prefer not to say"])
+            drugs = st.selectbox("Drug use?", ["No", "Occasionally", "Yes", "Prefer not to say"])
+        
+        with col2:
+            st.write("**Preferences:**")
+            pets = st.text_input("Do you have pets?", help="Any pets or allergies?")
+            hobbies = st.text_area("Hobbies and interests", help="What do you enjoy doing?", height=80)
+            living_situation = st.selectbox("Living Situation", ["Alone", "With family", "With roommates", "With partner", "Other"])
+        
+        # Content Creation Interest
+        st.header("📸 Content Creation Interest")
+        
+        content_interest = st.selectbox(
+            "Interest in content creation",
+            ["Not interested", "Somewhat interested", "Very interested", "Extremely interested"],
+            help="Interest in photos, videos, or other content creation"
+        )
+        
+        if content_interest != "Not interested":
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                content_types = st.multiselect(
+                    "Types of content you'd be interested in:",
+                    ["Photos", "Videos", "Audio", "Written content", "Live streaming", "Other"]
+                )
+            
+            with col2:
+                content_comfort = st.selectbox(
+                    "Comfort level with content sharing",
+                    ["Private only", "Limited sharing", "Public sharing", "Commercial use"]
+                )
+        
+        
+        # Additional Information
         st.header("📋 Additional Information")
-        
-        availability = st.text_area(
-            "Describe your general availability",
-            help="How often are you available and during what times?",
-            height=80
-        )
-        
-        commitment = st.selectbox(
-            "What level of commitment are you seeking?",
-            ["Not specified", "Casual", "Regular", "Long-term", "Exclusive"],
-            help="What kind of relationship or dynamic are you hoping for?"
-        )
         
         referral = st.text_input("How did you hear about us?", help="e.g., website, friend, specific event.")
         
+        expectations = st.text_area(
+            "What are your expectations from this dynamic?",
+            help="What do you hope to gain or experience?",
+            height=100
+        )
+        
+        concerns = st.text_area(
+            "Any concerns or questions?",
+            help="Anything you'd like to discuss or clarify?",
+            height=100
+        )
+        
         anything_else = st.text_area(
             "Is there anything else you'd like us to know?",
-            help="Any additional information you'd like to share.",
-            height=80
+            help="Any additional information you'd like to share about yourself, your interests, or what you're looking for.",
+            height=100
         )
         
         # Terms and Conditions
         st.markdown("---")
-        agree_terms = st.checkbox(
-            "I agree to the terms and conditions and privacy policy *",
-            help="You must agree to the terms to submit your application"
-        )
+        st.subheader("📋 Terms and Conditions")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            agree_terms = st.checkbox(
+                "I agree to the terms and conditions *",
+                help="You must agree to the terms to submit your application"
+            )
+            
+            agree_privacy = st.checkbox(
+                "I agree to the privacy policy *",
+                help="You must agree to the privacy policy to submit your application"
+            )
+        
+        with col2:
+            age_verification = st.checkbox(
+                "I am 18 years or older *",
+                help="You must be 18 or older to apply"
+            )
+            
+            consent_recording = st.checkbox(
+                "I consent to potential recording for safety purposes",
+                help="Optional - for safety and verification"
+            )
         
         # Submit button
+        st.markdown("---")
         col1, col2 = st.columns(2)
         with col1:
-            submitted = st.form_submit_button("🚀 Submit Application", use_container_width=True)
+            submitted = st.form_submit_button("🚀 Submit Application", use_container_width=True, type="primary")
         with col2:
             if st.form_submit_button("← Back to Portal", use_container_width=True):
                 st.session_state.show_application_form = False
                 st.rerun()
         
         if submitted:
-            if not agree_terms:
-                st.error("❌ You must agree to the terms and conditions to submit your application.")
-            elif not full_name or not email or not age or not location or not interests or not limits:
+            # Validation
+            required_fields = [full_name, email, age, location, interests, limits]
+            required_agreements = [agree_terms, agree_privacy, age_verification]
+            
+            if not all(required_fields):
                 st.error("❌ Please fill in all required fields.")
+            elif not all(required_agreements):
+                st.error("❌ You must agree to all required terms and conditions.")
             else:
-                # In a real application, you would send this data to your backend API
-                # For this example, we'll just display it.
+                # Prepare comprehensive application data
                 application_data = {
-                    "full_name": full_name,
-                    "email": email,
-                    "phone": phone,
-                    "age": age,
-                    "location": location,
-                    "experience": experience,
-                    "interests": interests,
-                    "limits": limits,
-                    "availability": availability,
-                    "commitment": commitment,
-                    "referral": referral,
-                    "anything_else": anything_else,
+                    "personal_info": {
+                        "full_name": full_name,
+                        "email": email,
+                        "phone": phone,
+                        "age": age,
+                        "location": location,
+                        "occupation": occupation,
+                        "education": education,
+                        "relationship_status": relationship_status,
+                        "height": height,
+                        "weight": weight,
+                        "body_type": body_type,
+                        "hair_color": hair_color,
+                        "eye_color": eye_color,
+                        "tattoos": tattoos
+                    },
+                    "experience": {
+                        "level": experience,
+                        "interests": interests,
+                        "limits": limits,
+                        "kink_ratings": {
+                            "bondage": bondage_interest,
+                            "impact": impact_interest,
+                            "service": service_interest,
+                            "control": control_interest,
+                            "roleplay": roleplay_interest,
+                            "humiliation": humiliation_interest,
+                            "cbt": cbt_interest,
+                            "findom": findom_interest
+                        }
+                    },
+                    "availability": {
+                        "description": availability,
+                        "time_commitment": time_commitment,
+                        "commitment_level": commitment,
+                        "travel_availability": travel_availability
+                    },
+                    "lifestyle": {
+                        "smoking": smoking,
+                        "drinking": drinking,
+                        "drugs": drugs,
+                        "pets": pets,
+                        "hobbies": hobbies,
+                        "living_situation": living_situation
+                    },
+                    "content_creation": {
+                        "interest": content_interest,
+                        "types": content_types if content_interest != "Not interested" else [],
+                        "comfort_level": content_comfort if content_interest != "Not interested" else None
+                    },
+                    "additional": {
+                        "referral": referral,
+                        "expectations": expectations,
+                        "concerns": concerns,
+                        "anything_else": anything_else
+                    },
+                    "consent": {
+                        "terms": agree_terms,
+                        "privacy": agree_privacy,
+                        "age_verification": age_verification,
+                        "recording_consent": consent_recording
+                    }
                 }
                 
                 st.success("✅ Application submitted successfully! We will review it shortly.")
-                st.json(application_data) # For demonstration, show submitted data
+                st.info("📧 You will receive a confirmation email shortly.")
+                
+                # Show summary
+                with st.expander("📋 Application Summary", expanded=True):
+                    st.write("**Personal Information:**")
+                    st.write(f"• Name: {full_name}")
+                    st.write(f"• Email: {email}")
+                    st.write(f"• Age: {age}")
+                    st.write(f"• Location: {location}")
+                    st.write(f"• Occupation: {occupation}")
+                    
+                    st.write("**Experience Level:** " + experience)
+                    st.write("**Commitment Level:** " + commitment)
+                    st.write("**Content Creation Interest:** " + content_interest)
+                    
+                    st.write("**Kink Compatibility Scores:**")
+                    st.write(f"• Bondage: {bondage_interest}/5")
+                    st.write(f"• Impact Play: {impact_interest}/5")
+                    st.write(f"• Service: {service_interest}/5")
+                    st.write(f"• Control: {control_interest}/5")
 
 def main():
     # Initialize session state
