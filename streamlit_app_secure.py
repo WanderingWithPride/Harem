@@ -992,16 +992,6 @@ def show_application_form():
             help="What kind of relationship or dynamic are you hoping for?"
         )
         
-        # Innovation Project Interest
-        st.subheader("🚀 Innovation Project Interest")
-        innovation_interest = st.selectbox(
-            f"Interest in {INNOVATION_PROJECT['name']}",
-            ["Not interested", "Somewhat interested", "Very interested", "Extremely interested"],
-            help=f"We're developing {INNOVATION_PROJECT['description'].lower()} for harem members."
-        )
-        
-        if innovation_interest != "Not interested":
-            st.info(f"💡 **{INNOVATION_PROJECT['name']}:** {INNOVATION_PROJECT['description']}")
         
         referral = st.text_input("How did you hear about us?", help="e.g., website, friend, specific event.")
         
